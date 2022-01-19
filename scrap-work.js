@@ -3,9 +3,9 @@ const inquirer = require('inquirer'); //Inquire prompt
 const fs = require('fs'); // requiring so that we can build the HTML File 
 
 //REQUIRE THE MAIN JS FILES 
-const Engineer = require('./lib/Engineer.js');
-const Intern = require('./lib/Intern.js');
-const Manager = require('./lib/Manager.js');
+// const Engineer = require('./lib/Engineer.js');
+// const Intern = require('./lib/Intern.js');
+// const Manager = require('./lib/Manager.js');
 
 //DEFINE A PLACE TO HOLD NEW DATA 
 const newPeople = [];
@@ -108,6 +108,9 @@ function que(arrayQue) {
     inquirer
         .prompt(arrayQue)
         .then((data) => {
+
+            newPeople.push(data); 
+
             if(data.add === 'Engineer'){
                 questions = EngineerQues;
                 que(questions);  
@@ -117,9 +120,16 @@ function que(arrayQue) {
                 que(questions);  
             } 
             else{
-                console.log("Do other stuff"); 
+               console.log('List: ', newPeople);
+               htmlMaker(newPeople);
             }
-        });
+        });  
 }
 
+console.log('List: ', newPeople);
 
+function htmlMaker(arrayList){  
+    fs.writeFile('index.html', generateHTML(arrayList), (err) =>
+      err ? console.log(err) : console.log('Success!')
+    );
+}
