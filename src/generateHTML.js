@@ -1,4 +1,7 @@
 function generateHTML(data) {
+  console.log("Working Funcation");
+  console.log(data);
+
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -19,14 +22,15 @@ function generateHTML(data) {
           <div class="col-sm-12 col-md-12 col-4">
           <div class="card bg-dark mb-3" style="margin: 25px;">
             <div class="card-header" style="background-color: #C06C84; color:white;">
-              <h3 class="card-title text-center empName">${person.name}</h3>
-              <h4 class="card-title">🧙🏽${person.role}</h4>
+              <h3 class="card-title text-center empName">${data[0].name}</h3>
+              <h4 class="card-title">🧙🏽${data[0].role}</h4>
             </div>
             <div class="card-body" style="background-color: #6C5B7B;">
               <ul class="list-group list-group-flush" style="color: black;">
-                <li class="list-group-item ids">${person.id}</li>
-                <li class="list-group-item emails">${person.email}</li>
-                <li class="list-group-item uniq"></li>
+                <li class="list-group-item ids">${data[0].id}</li>
+                <li class="list-group-item emails"><a href="mailto:${data[0].email}">${data[0].email}</a></li>
+                
+                <li class="list-group-item gitHuB"><a href="https://github.com/${data[0].gitHub}">${data[0].gitHub}</a></li>
               </ul>
             </div>
           </div>
@@ -36,5 +40,7 @@ function generateHTML(data) {
     </body>
   </html>
 `}
+
+
 
 module.exports = generateHTML; 
