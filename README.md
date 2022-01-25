@@ -44,8 +44,8 @@ THEN I exit the application, and the HTML is generated
 ## Installation
 All that is required is to have the following in your terminal: 
 - npm install 
-- npm i inquirer fs
-- node index.js
+- npm i inquirer fs jest
+- npm start
 
 ## Tests
 For this application, there are 4 tests to run to make sure that we are getting our expected data. To test this, please type "npm run test" in your terminal.
@@ -64,5 +64,5 @@ To see how it is done, please view the following video/gif of how to use this ap
 - [Inquirer](https://www.npmjs.com/package/inquirer)
 
 ## Links 
-- Video link: 
+- Video link: https://drive.google.com/file/d/1h6MCEzSVVfg5nzvLtxfavcu1Lb7wtlVb/view?usp=sharing 
 - GitHub repositor: https://github.com/ed2022/Team_Profile_Generator.git
