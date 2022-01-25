@@ -4,16 +4,16 @@ const fs = require('fs'); // requiring so that we can build the HTML File
 
 //REQUIRE THE MAIN JS FILES 
 const generateHTML = require('./src/generateHTML');
-const Employee = require('./lib/Employee.js');
 const Engineer = require('./lib/Engineer.js');
 const Intern = require('./lib/Intern.js');
 const Manager = require('./lib/Manager.js');
+const console = require('console');
 
 //DEFINE A PLACE TO HOLD NEW DATA 
 var newPeople = [];
 
 //initial message: 
-console.log(`\nWelcome to the team generator!\nUse \`npm run reset\` to reset the dist/folder\n\nPlease build your team by answering the following questions below: `);
+console.log(`\nWelcome to the team generator!\nPlease build your team by answering the following questions below: \n`);
 
 //Prep Questions 
 const managerQues = [
@@ -36,13 +36,7 @@ const managerQues = [
       type: 'input',
       name: 'officeNumber',
       message: 'What is the team manager\'s office number?',
-    },
-    {
-      type: 'list',
-      name: 'add',
-      message: 'Which type of team member would you like to add? ',
-      choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
-    },
+    }
 ]; 
 const EngineerQues = [
     {
@@ -62,15 +56,9 @@ const EngineerQues = [
     },
     {
       type: 'input',
-      name: 'officeNumber',
+      name: 'gitHub',
       message: 'What is the team Engineer\'s GitHub Username?',
-    },
-    {
-      type: 'list',
-      name: 'add',
-      message: 'Which type of team member would you like to add? ',
-      choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
-    },
+    }
 ]; 
 const InternQues = [
     {
@@ -90,46 +78,51 @@ const InternQues = [
     },
     {
       type: 'input',
-      name: 'officeNumber',
+      name: 'school',
       message: 'What is the team Intern\'s school?',
-    },
-    {
-      type: 'list',
-      name: 'add',
-      message: 'Which type of team member would you like to add? ',
-      choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
-    },
+    }
 ]; 
-
+const pickAPerson = [  {
+    type: 'list',
+    name: 'add',
+    message: 'Which type of team member would you like to add? ',
+    choices: ['Engineer', 'Intern', 'I don\'t want to add any more team members'],
+  }
+]
+// To pick Role
+function menu(){
+  inquirer
+  .prompt(pickAPerson)
+  .then((data) => {
+      if(data.add === 'Engineer'){
+        questions = EngineerQues;
+        que(questions, "Engineer");  
+      }
+      else if (data.add === 'Intern'){
+        questions = InternQues;   
+        que(questions,"Intern");  
+      } 
+      else{
+       console.log('List: ', newPeople);
+       htmlMaker(newPeople);
+    }
+  })
+}
 //Assigning the function of prompt to it's respectable set of question
 var questions = managerQues;
-que(questions);
-
+que(questions , "Manager");
 //Causing the inquire to begain
-function que(arrayQue) {
+function que(arrayQue, employeeType) {
     inquirer
         .prompt(arrayQue)
         .then((data) => {
-
-            newPeople.push(data); 
-
-            if(data.add === 'Engineer'){
-                questions = EngineerQues;
-                que(questions);  
-            }
-            else if (data.add === 'Intern'){
-                questions = InternQues;   
-                que(questions);  
-            } 
-            else{
-               console.log('List: ', newPeople);
-               htmlMaker(newPeople);
-            }
+            if(employeeType === "Manager"){ var mangInfo = new Manager(data.name, data.id, data.email, data.officeNumber); newPeople.push(mangInfo);}
+            else if(employeeType=== "Engineer"){ var engInfo = new Engineer(data.name, data.id, data.email, data.gitHub); newPeople.push(engInfo);}
+            else {var internInfo = new Intern(data.name, data.id, data.email, data.school); newPeople.push(internInfo);}
+            menu(); 
         });  
 }
-
-console.log('129- List: ', newPeople);
-
+//To generate the HTML file
 function htmlMaker(arrayList){  
     fs.writeFile('index.html', generateHTML(arrayList), (err) =>
       err ? console.log(err) : console.log('Success!')

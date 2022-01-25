@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index",
     "watch": "nodemon index",
-    "test": "jest"
+    "test": "jest --verbose __test__/*"
   },
   "author": "",
   "license": "ISC",

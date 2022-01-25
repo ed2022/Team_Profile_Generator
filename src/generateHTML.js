@@ -1,7 +1,46 @@
 function generateHTML(data) {
-  console.log("Working Funcation");
-  console.log(data);
-
+  console.log("We are here in generate!");
+  console.log("Data: ", data);
+  
+  function cardGenerator(data){
+    var empCards =``; 
+    //looping through data
+    data.forEach(card => {
+      //getting specific detail
+      var cardlist = ``;
+      if(card.getRole() === "Manager"){
+        cardlist = `<li class="list-group-item officeNumber">Office Number: ${card.getOfficeNumber()}</a></li>`
+        console.log("CardList: " + cardlist);
+      }
+      else if(card.getRole() === "Engineer"){
+        cardlist = `<li class="list-group-item gitHub">GitHub: ${card.getHub()}</a></li>`
+        console.log("CardList: " + cardlist);
+      }
+      else {
+        cardlist = `<li class="list-group-item school">School: ${card.getSchool()}</a></li>`
+        console.log("CardList: " + cardlist);
+      } 
+      //making a card and adding this to the already existing cards
+      empCards = empCards + 
+      `<div class="col-sm-12 col-md-12 col-4">
+        <div class="card bg-dark mb-3" style="margin: 25px;">
+          <div class="card-header" style="background-color: #C06C84; color:white;">
+            <h3 class="card-title text-center empName">${card.getName()}</h3>
+            <h4 class="card-title">🧙🏽${card.getRole()}</h4>
+          </div>
+          <div class="card-body" style="background-color: #6C5B7B;">
+            <ul class="list-group list-group-flush" style="color: black;">
+              <li class="list-group-item ids">Id: ${card.getId()}</li>
+              <li class="list-group-item emails"><a href="mailto:${card.getEmail()}">Email: ${card.getEmail()}</a></li>
+              ${cardlist}
+            </ul>
+          </div>
+        </div>
+      </div> ` 
+    });
+    return empCards; 
+  }
+  
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -19,28 +58,12 @@ function generateHTML(data) {
       </header>
       <!-- <div class="container" style="background-color: cyan; padding: 15px; margin: 50px"> -->
       <div class="row">
-          <div class="col-sm-12 col-md-12 col-4">
-          <div class="card bg-dark mb-3" style="margin: 25px;">
-            <div class="card-header" style="background-color: #C06C84; color:white;">
-              <h3 class="card-title text-center empName">${data[0].name}</h3>
-              <h4 class="card-title">🧙🏽${data[0].role}</h4>
-            </div>
-            <div class="card-body" style="background-color: #6C5B7B;">
-              <ul class="list-group list-group-flush" style="color: black;">
-                <li class="list-group-item ids">${data[0].id}</li>
-                <li class="list-group-item emails"><a href="mailto:${data[0].email}">${data[0].email}</a></li>
-                
-                <li class="list-group-item gitHuB"><a href="https://github.com/${data[0].gitHub}">${data[0].gitHub}</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        ${cardGenerator(data)}
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
     </body>
   </html>
-`}
-
-
+`
+}
 
 module.exports = generateHTML; 
